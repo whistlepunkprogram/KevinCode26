@@ -8,7 +8,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -18,8 +17,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.subsystems.FeederSubsystem;
-import frc.robot.subsystems.IntakeShooterSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -38,8 +35,8 @@ public class RobotContainer {
 
   // Subsystems
   private final Drive drive;
-  private final FeederSubsystem m_FeederSubsystem = new FeederSubsystem();
-  private final IntakeShooterSubsystem m_IntakeShooterSubsystem = new IntakeShooterSubsystem();
+  // private final FeederSubsystem m_FeederSubsystem = new FeederSubsystem();
+  // private final IntakeShooterSubsystem m_IntakeShooterSubsystem = new IntakeShooterSubsystem();
 
   // Controller
   private final CommandXboxController m_driverController = new CommandXboxController(0);
@@ -86,9 +83,9 @@ public class RobotContainer {
     }
 
     // Set up auto commands
-    NamedCommands.registerCommand(
-        "autoIntakeShooterCommand", m_IntakeShooterSubsystem.autoIntakeShooterCommand());
-    NamedCommands.registerCommand("autoFeederCommand", m_FeederSubsystem.autoFeederCommand());
+    // NamedCommands.registerCommand(
+    //     "autoIntakeShooterCommand", m_IntakeShooterSubsystem.autoIntakeShooterCommand());
+    // NamedCommands.registerCommand("autoFeederCommand", m_FeederSubsystem.autoFeederCommand());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -155,22 +152,22 @@ public class RobotContainer {
     // Operator section for controller number two.
 
     // Intake and Spool shooter with right trigger
-    m_operatorController
-        .rightTrigger()
-        .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
-        .onFalse(m_IntakeShooterSubsystem.stopIntakeShooterCommand());
+    // m_operatorController
+    //     .rightTrigger()
+    //      .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
+    //    .onFalse(m_IntakeShooterSubsystem.stopIntakeShooterCommand());
 
     // Run feeder to the shooter while holding right bumper, must hold right trigger too.
-    m_operatorController
-        .rightBumper()
-        .whileTrue(m_FeederSubsystem.runFeederCommand())
-        .onFalse(m_FeederSubsystem.stopFeederCommand());
+    // m_operatorController
+    //  .rightBumper()
+    //  .whileTrue(m_FeederSubsystem.runFeederCommand())
+    //  .onFalse(m_FeederSubsystem.stopFeederCommand());
 
     // Outtake and spit out fuel to floor while holding Left Trigger button
-    m_operatorController
-        .leftTrigger()
-        .whileTrue(m_FeederSubsystem.reverseFeederCommand())
-        .onFalse(m_FeederSubsystem.stopFeederCommand());
+    // m_operatorController
+    //  .leftTrigger()
+    // .whileTrue(m_FeederSubsystem.reverseFeederCommand())
+    // .onFalse(m_FeederSubsystem.stopFeederCommand());
   }
 
   /**
