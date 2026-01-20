@@ -40,7 +40,7 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController m_driverController = new CommandXboxController(0);
-  private final CommandXboxController m_operatorController = new CommandXboxController(1);
+ // private final CommandXboxController m_operatorController = new CommandXboxController(1);
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
