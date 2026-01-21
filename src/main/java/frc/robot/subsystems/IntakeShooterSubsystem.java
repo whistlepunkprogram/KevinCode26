@@ -16,13 +16,12 @@ public class IntakeShooterSubsystem extends SubsystemBase {
   private static SparkMax intakeShooterMotor =
       new SparkMax(13, MotorType.kBrushless); // sets cam ID 13 and type for the shooter motor
   private static SparkMaxConfig intakeShooterMotorConfig = new SparkMaxConfig();
-      
-    public static void configurefeederMotor() {
+
+  public static void configurefeederMotor() {
     intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
-    
-   intakeShooterMotor.configure(
+
+    intakeShooterMotor.configure(
         intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  
   }
 
   public IntakeShooterSubsystem() {
