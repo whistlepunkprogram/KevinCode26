@@ -10,42 +10,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FeederSubsystem extends SubsystemBase {
 
-  // Motor configuration for the intakeShooter subsystem
-  private static SparkMax feederMotor =
-      new SparkMax(15, MotorType.kBrushless); // sets cam ID 15 and type for the shooter motor
+  private static SparkMax feederMotor = new SparkMax(12, MotorType.kBrushless);
   private static SparkMaxConfig feederMotorConfig = new SparkMaxConfig();
-
-  public static void configurefeederMotor() {
-    feederMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
-  }
 
   public FeederSubsystem() {
     configureFeederMotor();
   }
 
   private void configureFeederMotor() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'configureIntakeMotor'");
+    feederMotorConfig.idleMode(IdleMode.kBrake);
+    feederMotorConfig.smartCurrentLimit(80);
+
+    feederMotor.configure(feederMotorConfig,true,true)  ;
   }
 
   public Command runFeederCommand() {
-    return Commands.runOnce(
-        () -> feederMotor.set(.2), this); // .4 is the speed the feeder will spin.
+    return Commands.runOnce(() -> feederMotor.set(0.2), this);
   }
 
   public Command reverseFeederCommand() {
-    return Commands.runOnce(
-        () -> feederMotor.set(-.2), this); // This spins the feeder motor backwards.
+    return Commands.runOnce(() -> feederMotor.set(-0.2), this);
   }
 
   public Command stopFeederCommand() {
-    return Commands.runOnce(() -> feederMotor.set(0), this); // stops the feeder motor
+    return Commands.runOnce(() -> feederMotor.set(0), this);
   }
 
   public Command autoFeederCommand() {
     return Commands.sequence(
-        Commands.runOnce(() -> feederMotor.set(0.2), this), // Start feeder at 20% speed
-        Commands.waitSeconds(5), // Wait for 5.0 seconds
+        Commands.runOnce(() -> feederMotor.set(0.2), this),
+        Commands.waitSeconds(5),
         Commands.runOnce(() -> feederMotor.set(0), this));
   }
 }
