@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.PersistMode;
+import com.revrobotics.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -12,11 +14,15 @@ public class IntakeShooterSubsystem extends SubsystemBase {
 
   // Motor configuration for the intakeShooter subsystem
   private static SparkMax intakeShooterMotor =
-      new SparkMax(14, MotorType.kBrushless); // sets cam ID 14 and type for the shooter motor
+      new SparkMax(13, MotorType.kBrushless); // sets cam ID 13 and type for the shooter motor
   private static SparkMaxConfig intakeShooterMotorConfig = new SparkMaxConfig();
-
-  public static void configureintakeShooterMotor() {
+      
+    public static void configurefeederMotor() {
     intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
+    
+   intakeShooterMotor.configure(
+        intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+  
   }
 
   public IntakeShooterSubsystem() {
