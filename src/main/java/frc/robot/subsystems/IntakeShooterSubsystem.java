@@ -13,24 +13,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeShooterSubsystem extends SubsystemBase {
 
   // Motor configuration for the intakeShooter subsystem
-  private static SparkMax intakeShooterMotor =
-      new SparkMax(13, MotorType.kBrushless); // sets cam ID 13 and type for the shooter motor
-  private static SparkMaxConfig intakeShooterMotorConfig = new SparkMaxConfig();
-
-  public static void configurefeederMotor() {
-    intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
-
-    intakeShooterMotor.configure(
-        intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  }
+  private final SparkMax intakeShooterMotor = new SparkMax(13, MotorType.kBrushless);
+  private final SparkMaxConfig intakeShooterMotorConfig = new SparkMaxConfig();
 
   public IntakeShooterSubsystem() {
     configureIntakeShooterMotor();
   }
 
+  /** Configure motor controller parameters for the intake/shooter motor. */
   private void configureIntakeShooterMotor() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'configureIntakeMotor'");
+    intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
+
+    intakeShooterMotor.configure(
+        intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public Command runIntakeShooterCommand() {

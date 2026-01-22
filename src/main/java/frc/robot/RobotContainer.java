@@ -160,15 +160,21 @@ public class RobotContainer {
         .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
         .onFalse(m_IntakeShooterSubsystem.stopIntakeShooterCommand());
 
-    // Run feeder to the shooter while holding right bumper, must hold right trigger too.
+    // Intake and Spool shooter with right trigger
     m_operatorController
         .rightBumper()
+        .whileTrue(m_IntakeShooterSubsystem.reverseIntakeShooterCommand())
+        .onFalse(m_IntakeShooterSubsystem.stopIntakeShooterCommand());
+
+    // Run feeder to the shooter, must hold right trigger too.
+    m_operatorController
+        .leftTrigger()
         .whileTrue(m_FeederSubsystem.runFeederCommand())
         .onFalse(m_FeederSubsystem.stopFeederCommand());
 
     // Outtake and spit out fuel to floor while holding Left Trigger button
     m_operatorController
-        .leftTrigger()
+        .leftBumper()
         .whileTrue(m_FeederSubsystem.reverseFeederCommand())
         .onFalse(m_FeederSubsystem.stopFeederCommand());
   }
