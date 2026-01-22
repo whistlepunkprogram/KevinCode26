@@ -12,9 +12,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class FeederSubsystem extends SubsystemBase {
 
-  // Motor configuration for the feeder subsystem
-  private final SparkMax feederMotor = new SparkMax(12, MotorType.kBrushless);
-  private final SparkMaxConfig feederMotorConfig = new SparkMaxConfig();
+  private static SparkMax feederMotor = new SparkMax(12, MotorType.kBrushless);
+  private static SparkMaxConfig feederMotorConfig = new SparkMaxConfig();
 
   public FeederSubsystem() {
     configureFeederMotor();
@@ -22,30 +21,28 @@ public class FeederSubsystem extends SubsystemBase {
 
   /** Configure motor controller parameters for the feeder motor. */
   private void configureFeederMotor() {
-    feederMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
+    feederMotorConfig.idleMode(IdleMode.kBrake);
+    feederMotorConfig.smartCurrentLimit(80);
 
-    feederMotor.configure(
-        feederMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    feederMotor.configure(feederMotorConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters)  ;
   }
 
   public Command runFeederCommand() {
-    return Commands.runOnce(
-        () -> feederMotor.set(-.2), this); // .4 is the speed the feeder will spin.
+    return Commands.runOnce(() -> feederMotor.set(0.2), this);
   }
 
   public Command reverseFeederCommand() {
-    return Commands.runOnce(
-        () -> feederMotor.set(.2), this); // This spins the feeder motor backwards.
+    return Commands.runOnce(() -> feederMotor.set(-0.2), this);
   }
 
   public Command stopFeederCommand() {
-    return Commands.runOnce(() -> feederMotor.set(0), this); // stops the feeder motor
+    return Commands.runOnce(() -> feederMotor.set(0), this);
   }
 
   public Command autoFeederCommand() {
     return Commands.sequence(
-        Commands.runOnce(() -> feederMotor.set(0.2), this), // Start feeder at 20% speed
-        Commands.waitSeconds(5), // Wait for 5.0 seconds
+        Commands.runOnce(() -> feederMotor.set(0.2), this),
+        Commands.waitSeconds(5),
         Commands.runOnce(() -> feederMotor.set(0), this));
   }
 }
