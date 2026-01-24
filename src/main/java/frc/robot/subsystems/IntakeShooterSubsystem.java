@@ -17,20 +17,15 @@ public class IntakeShooterSubsystem extends SubsystemBase {
       new SparkMax(13, MotorType.kBrushless); // sets cam ID 13 and type for the shooter motor
   private static SparkMaxConfig intakeShooterMotorConfig = new SparkMaxConfig();
 
-  public static void configurefeederMotor() {
-    intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
-
-    intakeShooterMotor.configure(
-        intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-  }
-
   public IntakeShooterSubsystem() {
     configureIntakeShooterMotor();
   }
 
   private void configureIntakeShooterMotor() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'configureIntakeMotor'");
+    intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
+
+    intakeShooterMotor.configure(
+        intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public Command runIntakeShooterCommand() {
