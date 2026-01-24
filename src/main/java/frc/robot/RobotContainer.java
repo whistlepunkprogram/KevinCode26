@@ -160,7 +160,7 @@ public class RobotContainer {
     // Intake and Spool shooter with right trigger
     m_operatorController
         .rightTrigger()
-        .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
+        .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand());
     m_operatorController
         .rightTrigger()
         .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
