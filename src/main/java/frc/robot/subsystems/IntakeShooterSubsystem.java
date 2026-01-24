@@ -21,7 +21,12 @@ public class IntakeShooterSubsystem extends SubsystemBase {
     configureIntakeShooterMotor();
   }
 
+  /** Configure motor controller parameters for the intake/shooter motor. */
   private void configureIntakeShooterMotor() {
+    intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
+
+    intakeShooterMotor.configure(
+        intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
 
     intakeShooterMotor.configure(

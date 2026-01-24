@@ -89,6 +89,9 @@ public class RobotContainer {
     NamedCommands.registerCommand(
         "autoIntakeShooterCommand", m_IntakeShooterSubsystem.autoIntakeShooterCommand());
     NamedCommands.registerCommand("autoFeederCommand", m_FeederSubsystem.autoFeederCommand());
+    NamedCommands.registerCommand(
+        "autoIntakeShooterCommand", m_IntakeShooterSubsystem.autoIntakeShooterCommand());
+    NamedCommands.registerCommand("autoFeederCommand", m_FeederSubsystem.autoFeederCommand());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -155,6 +158,9 @@ public class RobotContainer {
     // Operator section for controller number two.
 
     // Intake and Spool shooter with right trigger
+    m_operatorController
+        .rightTrigger()
+        .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
     m_operatorController
         .rightTrigger()
         .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
