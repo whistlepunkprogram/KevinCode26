@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
@@ -87,11 +88,20 @@ public class RobotContainer {
 
     // Set up auto commands
     NamedCommands.registerCommand(
-        "autoIntakeShooterCommand", m_IntakeShooterSubsystem.autoIntakeShooterCommand());
-    NamedCommands.registerCommand("autoFeederCommand", m_FeederSubsystem.autoFeederCommand());
+        "autoIntake",
+        Commands.parallel(
+            m_IntakeShooterSubsystem.autoSlowIntakeCommand(),
+            m_FeederSubsystem.autoFeederCommand()));
     NamedCommands.registerCommand(
-        "autoIntakeShooterCommand", m_IntakeShooterSubsystem.autoIntakeShooterCommand());
-    NamedCommands.registerCommand("autoFeederCommand", m_FeederSubsystem.autoFeederCommand());
+        "autoShoot",
+        Commands.parallel(
+            m_IntakeShooterSubsystem.autoIntakeShooterCommand(),
+            m_FeederSubsystem.autoReverseFeederCommand()));
+    NamedCommands.registerCommand(
+        "autoOutake",
+        Commands.parallel(
+            m_IntakeShooterSubsystem.autoReverseIntakeShooterCommand(),
+            m_FeederSubsystem.autoReverseFeederCommand()));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -157,26 +167,41 @@ public class RobotContainer {
 
     // Operator section for controller number two.
 
-    // Intake and Spool shooter with right trigger
+    // Intake and spin feeder to load FUEL while holding LEFT Trigger button
     m_operatorController
-        .rightTrigger()
-        .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand());
-    m_operatorController
-        .rightTrigger()
-        .whileTrue(m_IntakeShooterSubsystem.runIntakeShooterCommand())
-        .onFalse(m_IntakeShooterSubsystem.stopIntakeShooterCommand());
+        .leftTrigger()
+        .whileTrue(
+            new ParallelCommandGroup(
+                m_IntakeShooterSubsystem.runIntakeShooterCommand(),
+                m_FeederSubsystem.runFeederCommand()))
+        .onFalse(
+            Commands.parallel(
+                m_IntakeShooterSubsystem.stopIntakeShooterCommand(),
+                m_FeederSubsystem.stopFeederCommand()));
 
-    // Run feeder to the shooter while holding right bumper, must hold right trigger too.
+    // Spool up shooter and reverse intake to SHOOT fuel.
     m_operatorController
-        .rightBumper()
-        .whileTrue(m_FeederSubsystem.runFeederCommand())
-        .onFalse(m_FeederSubsystem.stopFeederCommand());
+        .rightTrigger()
+        .whileTrue(
+            new ParallelCommandGroup(
+                m_IntakeShooterSubsystem.runIntakeShooterCommand(),
+                m_FeederSubsystem.reverseFeederCommand()))
+        .onFalse(
+            Commands.parallel(
+                m_IntakeShooterSubsystem.stopIntakeShooterCommand(),
+                m_FeederSubsystem.stopFeederCommand()));
 
     // Outtake and spit out fuel to floor while holding Left Trigger button
     m_operatorController
-        .leftTrigger()
-        .whileTrue(m_FeederSubsystem.reverseFeederCommand())
-        .onFalse(m_FeederSubsystem.stopFeederCommand());
+        .rightBumper()
+        .whileTrue(
+            new ParallelCommandGroup(
+                m_IntakeShooterSubsystem.reverseIntakeShooterCommand(),
+                m_FeederSubsystem.reverseFeederCommand()))
+        .onFalse(
+            Commands.parallel(
+                m_IntakeShooterSubsystem.stopIntakeShooterCommand(),
+                m_FeederSubsystem.stopFeederCommand()));
   }
 
   /**

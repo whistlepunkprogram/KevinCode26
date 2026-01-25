@@ -25,11 +25,11 @@ public class FeederSubsystem extends SubsystemBase {
   }
 
   public Command runFeederCommand() {
-    return Commands.runOnce(() -> feederMotor.set(0.2), this);
+    return Commands.runOnce(() -> feederMotor.set(0.4), this);
   }
 
   public Command reverseFeederCommand() {
-    return Commands.runOnce(() -> feederMotor.set(-0.2), this);
+    return Commands.runOnce(() -> feederMotor.set(-0.4), this);
   }
 
   public Command stopFeederCommand() {
@@ -38,7 +38,14 @@ public class FeederSubsystem extends SubsystemBase {
 
   public Command autoFeederCommand() {
     return Commands.sequence(
-        Commands.runOnce(() -> feederMotor.set(0.2), this),
+        Commands.runOnce(() -> feederMotor.set(0.4), this),
+        Commands.waitSeconds(5),
+        Commands.runOnce(() -> feederMotor.set(0), this));
+  }
+
+  public Command autoReverseFeederCommand() {
+    return Commands.sequence(
+        Commands.runOnce(() -> feederMotor.set(-0.4), this),
         Commands.waitSeconds(5),
         Commands.runOnce(() -> feederMotor.set(0), this));
   }

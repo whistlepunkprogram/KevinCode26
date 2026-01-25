@@ -32,25 +32,44 @@ public class IntakeShooterSubsystem extends SubsystemBase {
     intakeShooterMotor.configure(
         intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
-
+  // Intake speed
+  public Command runSlowIntakeCommand() {
+    return Commands.runOnce(
+        () -> intakeShooterMotor.set(.4), this); // .4 is the speed the intake will spin.
+  }
+  // Shooter speed
   public Command runIntakeShooterCommand() {
     return Commands.runOnce(
-        () -> intakeShooterMotor.set(.6), this); // .4 is the speed the intake will spin.
+        () -> intakeShooterMotor.set(.9), this); // .9 is the speed the intake will spin.
   }
-
+  // Send fuel to shooter speed
   public Command reverseIntakeShooterCommand() {
     return Commands.runOnce(
         () -> intakeShooterMotor.set(-.4), this); // This spins the intake motor backwards.
   }
-
+  // Stop command used by all intake/shooter commands.
   public Command stopIntakeShooterCommand() {
     return Commands.runOnce(() -> intakeShooterMotor.set(0), this); // stops the intake motor
+  }
+  // auto command for path planner
+  public Command autoSlowIntakeCommand() {
+    return Commands.sequence(
+        Commands.runOnce(() -> intakeShooterMotor.set(0.4), this), // Start intake at 50% speed
+        Commands.waitSeconds(6), // Wait for 6.0 seconds
+        Commands.runOnce(() -> intakeShooterMotor.set(0), this));
   }
 
   public Command autoIntakeShooterCommand() {
     return Commands.sequence(
-        Commands.runOnce(() -> intakeShooterMotor.set(0.6), this), // Start intake at 50% speed
-        Commands.waitSeconds(6), // Wait for 3.0 seconds
+        Commands.runOnce(() -> intakeShooterMotor.set(0.9), this), // Start intake at 50% speed
+        Commands.waitSeconds(6), // Wait for 6.0 seconds
+        Commands.runOnce(() -> intakeShooterMotor.set(0), this));
+  }
+
+  public Command autoReverseIntakeShooterCommand() {
+    return Commands.sequence(
+        Commands.runOnce(() -> intakeShooterMotor.set(-0.4), this), // Start intake at 50% speed
+        Commands.waitSeconds(6), // Wait for 6.0 seconds
         Commands.runOnce(() -> intakeShooterMotor.set(0), this));
   }
 }
