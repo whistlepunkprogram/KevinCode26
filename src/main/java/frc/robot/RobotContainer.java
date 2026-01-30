@@ -91,17 +91,17 @@ public class RobotContainer {
         "autoIntake",
         Commands.parallel(
             m_IntakeShooterSubsystem.autoSlowIntakeCommand(),
-            m_FeederSubsystem.autoFeederCommand()));
+            m_FeederSubsystem.autoReverseFeederCommand()));
     NamedCommands.registerCommand(
         "autoShoot",
         Commands.parallel(
             m_IntakeShooterSubsystem.autoIntakeShooterCommand(),
-            m_FeederSubsystem.autoReverseFeederCommand()));
+            m_FeederSubsystem.autoFeederCommand()));
     NamedCommands.registerCommand(
         "autoOutake",
         Commands.parallel(
             m_IntakeShooterSubsystem.autoReverseIntakeShooterCommand(),
-            m_FeederSubsystem.autoReverseFeederCommand()));
+            m_FeederSubsystem.autoFeederCommand()));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -172,6 +172,18 @@ public class RobotContainer {
         .leftTrigger()
         .whileTrue(
             new ParallelCommandGroup(
+                m_IntakeShooterSubsystem.runSlowIntakeCommand(),
+                m_FeederSubsystem.reverseFeederCommand()))
+        .onFalse(
+            Commands.parallel(
+                m_IntakeShooterSubsystem.stopIntakeShooterCommand(),
+                m_FeederSubsystem.stopFeederCommand()));
+
+    // Spool up shooter and run intake to SHOOT fuel.
+    m_operatorController
+        .rightTrigger()
+        .whileTrue(
+            new ParallelCommandGroup(
                 m_IntakeShooterSubsystem.runIntakeShooterCommand(),
                 m_FeederSubsystem.runFeederCommand()))
         .onFalse(
@@ -179,25 +191,13 @@ public class RobotContainer {
                 m_IntakeShooterSubsystem.stopIntakeShooterCommand(),
                 m_FeederSubsystem.stopFeederCommand()));
 
-    // Spool up shooter and reverse intake to SHOOT fuel.
-    m_operatorController
-        .rightTrigger()
-        .whileTrue(
-            new ParallelCommandGroup(
-                m_IntakeShooterSubsystem.runIntakeShooterCommand(),
-                m_FeederSubsystem.reverseFeederCommand()))
-        .onFalse(
-            Commands.parallel(
-                m_IntakeShooterSubsystem.stopIntakeShooterCommand(),
-                m_FeederSubsystem.stopFeederCommand()));
-
-    // Outtake and spit out fuel to floor while holding Left Trigger button
+    // Outtake and spit out fuel to floor while holding right bumper button
     m_operatorController
         .rightBumper()
         .whileTrue(
             new ParallelCommandGroup(
                 m_IntakeShooterSubsystem.reverseIntakeShooterCommand(),
-                m_FeederSubsystem.reverseFeederCommand()))
+                m_FeederSubsystem.runFeederCommand()))
         .onFalse(
             Commands.parallel(
                 m_IntakeShooterSubsystem.stopIntakeShooterCommand(),

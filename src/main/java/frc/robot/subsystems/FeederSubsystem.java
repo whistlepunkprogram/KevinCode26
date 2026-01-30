@@ -23,13 +23,13 @@ public class FeederSubsystem extends SubsystemBase {
     feederMotor.configure(
         feederMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
-
+  // this command will load fuel into the shooter.
   public Command runFeederCommand() {
-    return Commands.runOnce(() -> feederMotor.set(0.4), this);
+    return Commands.runOnce(() -> feederMotor.set(0.6), this);
   }
-
+  // this command would intake fuel
   public Command reverseFeederCommand() {
-    return Commands.runOnce(() -> feederMotor.set(-0.4), this);
+    return Commands.runOnce(() -> feederMotor.set(-0.6), this);
   }
 
   public Command stopFeederCommand() {
@@ -38,14 +38,14 @@ public class FeederSubsystem extends SubsystemBase {
 
   public Command autoFeederCommand() {
     return Commands.sequence(
-        Commands.runOnce(() -> feederMotor.set(0.4), this),
+        Commands.runOnce(() -> feederMotor.set(0.6), this),
         Commands.waitSeconds(5),
         Commands.runOnce(() -> feederMotor.set(0), this));
   }
 
   public Command autoReverseFeederCommand() {
     return Commands.sequence(
-        Commands.runOnce(() -> feederMotor.set(-0.4), this),
+        Commands.runOnce(() -> feederMotor.set(-0.6), this),
         Commands.waitSeconds(5),
         Commands.runOnce(() -> feederMotor.set(0), this));
   }
