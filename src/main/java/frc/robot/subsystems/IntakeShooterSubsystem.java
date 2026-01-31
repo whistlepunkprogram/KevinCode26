@@ -27,10 +27,6 @@ public class IntakeShooterSubsystem extends SubsystemBase {
 
     intakeShooterMotor.configure(
         intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    intakeShooterMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
-
-    intakeShooterMotor.configure(
-        intakeShooterMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
   // Intake speed
   public Command runSlowIntakeCommand() {

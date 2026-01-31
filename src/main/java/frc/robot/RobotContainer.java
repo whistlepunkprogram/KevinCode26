@@ -103,6 +103,11 @@ public class RobotContainer {
             m_IntakeShooterSubsystem.autoReverseIntakeShooterCommand(),
             m_FeederSubsystem.autoFeederCommand()));
 
+    // Register individual commands for backward compatibility with PathPlanner
+    NamedCommands.registerCommand(
+        "autoIntakeShooterCommand", m_IntakeShooterSubsystem.autoIntakeShooterCommand());
+    NamedCommands.registerCommand("autoFeederCommand", m_FeederSubsystem.autoFeederCommand());
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -167,9 +172,9 @@ public class RobotContainer {
 
     // Operator section for controller number two.
 
-    // Intake and spin feeder to load FUEL while holding LEFT Trigger button
+    // Outtake and spit out fuel to floor while holding right bumper button
     m_operatorController
-        .leftTrigger()
+        .rightBumper()
         .whileTrue(
             new ParallelCommandGroup(
                 m_IntakeShooterSubsystem.runSlowIntakeCommand(),
@@ -185,15 +190,15 @@ public class RobotContainer {
         .whileTrue(
             new ParallelCommandGroup(
                 m_IntakeShooterSubsystem.runIntakeShooterCommand(),
-                m_FeederSubsystem.runFeederCommand()))
+                m_FeederSubsystem.reverseFeederCommand()))
         .onFalse(
             Commands.parallel(
                 m_IntakeShooterSubsystem.stopIntakeShooterCommand(),
                 m_FeederSubsystem.stopFeederCommand()));
 
-    // Outtake and spit out fuel to floor while holding right bumper button
+    // Intake and spin feeder to load FUEL while holding LEFT Trigger button
     m_operatorController
-        .rightBumper()
+        .leftTrigger()
         .whileTrue(
             new ParallelCommandGroup(
                 m_IntakeShooterSubsystem.reverseIntakeShooterCommand(),

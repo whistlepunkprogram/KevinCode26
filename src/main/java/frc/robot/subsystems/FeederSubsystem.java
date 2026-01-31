@@ -17,12 +17,17 @@ public class FeederSubsystem extends SubsystemBase {
       new SparkMax(12, MotorType.kBrushless); // sets cam ID 12 and type for the shooter motor
   private static SparkMaxConfig feederMotorConfig = new SparkMaxConfig();
 
-  public static void configurefeederMotor() {
+  public FeederSubsystem() {
+    configurefeederMotor();
+  }
+
+  private void configurefeederMotor() {
     feederMotorConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(80);
 
     feederMotor.configure(
         feederMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
+
   // this command will load fuel into the shooter.
   public Command runFeederCommand() {
     return Commands.runOnce(() -> feederMotor.set(0.6), this);
