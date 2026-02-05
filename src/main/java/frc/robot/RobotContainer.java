@@ -144,7 +144,7 @@ public class RobotContainer {
             drive,
             () -> -m_driverController.getLeftY(),
             () -> -m_driverController.getLeftX(),
-            () -> -m_driverController.getRightX()));
+            () -> m_driverController.getRightX())); // Inverted steering (removed negative sign)
 
     // Lock to 0° when A button is held
     m_driverController
