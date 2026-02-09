@@ -15,7 +15,7 @@ import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 
 public class DriveConstants {
-  public static final double maxSpeedMetersPerSec = 5.1;
+  public static final double maxSpeedMetersPerSec = 3.5;
   public static final double odometryFrequency = 100.0; // Hz
   public static final double trackWidth = Units.inchesToMeters(24.5);
   public static final double wheelBase = Units.inchesToMeters(25.5);

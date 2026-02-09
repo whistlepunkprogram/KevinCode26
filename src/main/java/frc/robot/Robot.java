@@ -29,7 +29,7 @@ public class Robot extends LoggedRobot {
   private RobotContainer robotContainer;
 
   public Robot() {
-    super(0.04); // Set period to 40ms
+    super(0.04); // Set period to 40ms this will maybe fix command loop timing issues
     // Record metadata
     Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
     Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
