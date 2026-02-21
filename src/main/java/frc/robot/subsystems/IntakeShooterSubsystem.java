@@ -31,7 +31,7 @@ public class IntakeShooterSubsystem extends SubsystemBase {
   // Intake speed
   public Command runSlowIntakeCommand() {
     return Commands.runOnce(
-        () -> intakeShooterMotor.set(-.3), this); // .3 is the speed the intake will spin.
+        () -> intakeShooterMotor.set(-.35), this); // .3 is the speed the intake will spin.
   }
   // Shooter speed
   public Command runIntakeShooterCommand() {
@@ -41,7 +41,7 @@ public class IntakeShooterSubsystem extends SubsystemBase {
   // Send fuel to shooter speed
   public Command reverseIntakeShooterCommand() {
     return Commands.runOnce(
-        () -> intakeShooterMotor.set(.3), this); // This spins the intake motor backwards.
+        () -> intakeShooterMotor.set(.35), this); // This spins the intake motor backwards.
   }
   // Stop command used by all intake/shooter commands.
   public Command stopIntakeShooterCommand() {
@@ -57,7 +57,7 @@ public class IntakeShooterSubsystem extends SubsystemBase {
 
   public Command autoIntakeShooterCommand() {
     return Commands.sequence(
-        Commands.runOnce(() -> intakeShooterMotor.set(0.9), this), // Start intake at 50% speed
+        Commands.runOnce(() -> intakeShooterMotor.set(0.9), this), // Start intake at 90% speed
         Commands.waitSeconds(6), // Wait for 6.0 seconds
         Commands.runOnce(() -> intakeShooterMotor.set(0), this));
   }
