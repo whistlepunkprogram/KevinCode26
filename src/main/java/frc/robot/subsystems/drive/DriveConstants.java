@@ -79,7 +79,7 @@ public class DriveConstants {
   public static final double turnMotorReduction = 9424.0 / 203.0;
   public static final DCMotor turnGearbox = DCMotor.getNeo550(1);
 
-  // Turn encoder configuration, originally this setting was true.
+  // Turn encoder configuration
   public static final boolean turnEncoderInverted = true;
   public static final double turnEncoderPositionFactor = 2 * Math.PI; // Rotations -> Radians
   public static final double turnEncoderVelocityFactor = (2 * Math.PI) / 60.0; // RPM -> Rad/Sec
